@@ -30,7 +30,7 @@ class VEML6075:
     UV_IT_200MS = 2
     UV_IT_400MS = 3
     UV_IT_800MS = 4
-    UV_INT_GROUP = [UV_IT_50MS, UV_IT_100MS, UV_IT_200MS, UV_IT_400MS, UV_IT_800MS]
+    UV_IT_GROUP = [UV_IT_50MS, UV_IT_100MS, UV_IT_200MS, UV_IT_400MS, UV_IT_800MS]
 
     def __init__(self, ftdi_uri, uv_it=UV_IT_50MS, hdr=False, uv_af=False):
         """
@@ -42,7 +42,7 @@ class VEML6075:
         :type uv_af: bool
         """
 
-        if uv_it not in self.UV_INT_GROUP:
+        if uv_it not in self.UV_IT_GROUP:
             raise ValueError("Invalid integration time")
 
         self.i2c_addr = self.I2C_ADDR_A
