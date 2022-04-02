@@ -27,11 +27,11 @@ class VEML6075:
     REG_UVCOMP2_DATA = 0x0B  # 2 Bytes: LSB -> MSB
     REG_ID = 0x0C  # 2 Bytes: LSB -> MSB
 
-    UV_IT_50MS = 0
-    UV_IT_100MS = 1
-    UV_IT_200MS = 2
-    UV_IT_400MS = 3
-    UV_IT_800MS = 4
+    UV_IT_50MS = 0.05
+    UV_IT_100MS = 0.1
+    UV_IT_200MS = 0.2
+    UV_IT_400MS = 0.4
+    UV_IT_800MS = 0.8
     UV_IT_GROUP = [UV_IT_50MS, UV_IT_100MS, UV_IT_200MS, UV_IT_400MS, UV_IT_800MS]
 
     def __init__(self, ftdi_uri, uv_it=UV_IT_50MS, hdr=False, uv_af=False):
@@ -46,6 +46,9 @@ class VEML6075:
 
         if uv_it not in self.UV_IT_GROUP:
             raise ValueError("Invalid integration time")
+
+        # Safe Integration time as we need it for our waiting routine
+        self.uv_it = uv_it
 
         self.i2c_addr = self.I2C_ADDR_A
         self.i2c = I2cController()
@@ -143,3 +146,6 @@ class VEML6075:
         config = self.i2c.exchange(self.I2C_ADDR_A, [self.REG_UV_CONF, self.I2C_ADDR_A], 1)[0]
         config = set_bit(config, 2)
         self.i2c.write(self.I2C_ADDR_A, [self.REG_UV_CONF, config, 0])
+
+        # We cannot poll for a "Done"-flag!
+        time.sleep(self.uv_it * 1.1)
