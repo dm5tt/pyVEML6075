@@ -149,3 +149,18 @@ class VEML6075:
 
         # We cannot poll for a "Done"-flag!
         time.sleep(self.uv_it * 1.1)
+
+    def power(self, state):
+        """
+        Power on or off the sensor
+        :param state: True for 'on', False for 'off'
+        :type state: bool
+        """
+        config = self.i2c.exchange(self.I2C_ADDR_A, [self.REG_UV_CONF, self.I2C_ADDR_A], 1)[0]
+
+        if state:
+            config = set_bit(config, 0)
+        else:
+            config = clear_bit(config, 0)
+
+        self.i2c.write(self.I2C_ADDR_A, [self.REG_UV_CONF, config, 0])
