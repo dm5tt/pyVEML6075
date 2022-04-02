@@ -1,3 +1,5 @@
+import time
+
 from pyftdi.i2c import I2cController
 
 
@@ -52,6 +54,15 @@ class VEML6075:
         self.configure(hdr, uv_af, uv_it)
 
     def configure(self, hdr, uv_af, uv_it):
+        """
+        :param uv_it: Sets the integration time of the sensor (UV_IT_50MS, UV_IT_100MS, UV_IT_200MS, UV_IT_400MS, UV_IT_800MS)
+        :type uv_it: int
+        :param hdr: Switches On/Off HDR Mode
+        :type hdr: bool
+        :param uv_af: Switches On/Off Active Force Mode
+        :type uv_af: bool
+        """
+
         config = self.i2c.exchange(self.I2C_ADDR_A, [self.REG_UV_CONF, self.I2C_ADDR_A], 1)[0]
 
         # Bit positions see Page 7 of the datasheet - as this IC is only having a single configuration register
