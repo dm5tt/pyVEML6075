@@ -54,7 +54,7 @@ class VEML6075:
     def configure(self, hdr, uv_af, uv_it):
         config = self.i2c.exchange(self.I2C_ADDR_A, [self.REG_UV_CONF, self.I2C_ADDR_A], 1)[0]
 
-        # Bit positio           ns see Page 7 of the datasheet - as this IC is only having a single configuration register
+        # Bit positions see Page 7 of the datasheet - as this IC is only having a single configuration register
         # I'm not going to spend an hour copy&pasting it
 
         # No match/case before Python 3.10 :-(
