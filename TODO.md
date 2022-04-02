@@ -1,2 +1,2 @@
-Not yet implemented
   - UV Index calculation
+  - IR/DARK/VIS compensation of sensor data (see https://github.com/seancaulfield/VEML6075)
