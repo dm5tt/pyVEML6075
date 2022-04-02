@@ -133,3 +133,13 @@ class VEML6075:
         uvb_comp = self.i2c.exchange(self.I2C_ADDR_A, [self.REG_UVCOMP2_DATA, self.I2C_ADDR_A], 2)
         uvb_comp_merged = uvb_comp[1] | uvb_comp[0] << 8
         return uvb_comp_merged
+
+    def start_measurement(self):
+        """
+        Triggers a measurement.
+
+        We cannot pull a "sampling finished"-flag here as UV_TRIG jumps to 0 immediately.
+        """
+        config = self.i2c.exchange(self.I2C_ADDR_A, [self.REG_UV_CONF, self.I2C_ADDR_A], 1)[0]
+        config = set_bit(config, 2)
+        self.i2c.write(self.I2C_ADDR_A, [self.REG_UV_CONF, config, 0])
