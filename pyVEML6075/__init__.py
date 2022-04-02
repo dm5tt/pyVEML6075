@@ -106,6 +106,9 @@ class VEML6075:
 
         self.i2c.write(self.I2C_ADDR_A, [self.REG_UV_CONF, config, 0])
 
+        # The sensor needs some time to settle after a configuration change
+        time.sleep(1)
+
     def read_id(self):
         id = self.i2c.exchange(self.I2C_ADDR_A, [self.REG_ID, self.I2C_ADDR_A], 2)
         id_merged = id[1] | id[0] << 8
