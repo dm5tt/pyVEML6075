@@ -1,6 +1,6 @@
 **Description**
 
-This is a small Python3 package that enables you to read out Vishay VEML6075 sensor using a FTDI chip. 
+This is a small Python3 package that enables you to read out a Vishay VEML6075 sensor using a FTDI chip. 
 
 **Hardware Setup**
 
